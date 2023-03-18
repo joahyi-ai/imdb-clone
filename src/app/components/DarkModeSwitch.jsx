@@ -1,28 +1,29 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { MdLightMode } from "react-icons/md";
+import { BsFillMoonFill } from "react-icons/bs";
 import { useTheme } from "next-themes";
-
-const DarkModeSwitch = () => {
+import { useEffect, useState } from "react";
+export default function DarkModeSwitch() {
+  const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
 
-  // useEffect only runs on the client, so now we can safely show the UI
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => setMounted(true), []);
 
-  if (!mounted) {
-    return null;
-  }
-
+  const currentTheme = theme === "system" ? systemTheme : theme;
   return (
-    <select value={theme} onChange={(e) => setTheme(e.target.value)}>
-      <option value="system">System</option>
-      <option value="dark">Dark</option>
-      <option value="light">Light</option>
-    </select>
+    <>
+      {mounted &&
+        (currentTheme === "dark" ? (
+          <MdLightMode
+            className="text-xl cursor-pointer hover:text-amber-500"
+            onClick={() => setTheme("light")}
+          />
+        ) : (
+          <BsFillMoonFill
+            className="text-xl cursor-pointer hover:text-amber-500"
+            onClick={() => setTheme("dark")}
+          />
+        ))}
+    </>
   );
-};
-
-export default DarkModeSwitch;
+}
