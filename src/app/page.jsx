@@ -1,6 +1,8 @@
 import { fetch, ProxyAgent } from "undici";
 import Results from "./components/Results";
 
+export const dynamic = "force-dynamic";
+
 const API_KEY = process.env.API_KEY;
 const dispatcher =
   process.env.NODE_ENV === "development"
